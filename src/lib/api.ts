@@ -1,4 +1,4 @@
-import type { Memory, MemoryStats, Entity, KnowledgeGraph, MemoryPack } from '../types/memory';
+import type { Memory, MemoryStats, KnowledgeGraph, MemoryPack } from '../types/memory';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'https://clude.io';
 

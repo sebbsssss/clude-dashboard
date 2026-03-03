@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clude Dashboard Preview</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  :root {
+    --bg: #f5f5f0;
+    --bg-warm: #efeee8;
+    --text: #111;
+    --text-muted: #666;
+    --text-faint: #999;
+    --border: #e5e4de;
+    --border-strong: #d5d4ce;
+    --blue: #2244ff;
+    --blue-light: #eef0ff;
+    --episodic: #2244ff;
+    --semantic: #10b981;
+    --procedural: #f59e0b;
+    --self-model: #8b5cf6;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  
+  body {
+    font-family: var(--mono);
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .sidebar {
+    width: 220px;
+    background: var(--bg-warm);
+    border-right: 1px solid var(--border);
+    padding: 24px 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .logo {
+    padding: 0 20px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .logo-text {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+  }
+  
+  .logo-badge {
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--blue);
+    background: var(--blue-light);
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+  
+  .nav { flex: 1; padding: 0 8px; }
+  
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    color: var(--text-muted);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+  }
+  
+  .nav-item.active {
+    color: var(--text);
+    background: rgba(0,0,0,0.06);
+    font-weight: 600;
+  }
+  
+  .nav-icon { font-size: 14px; width: 20px; text-align: center; opacity: 0.6; }
+  .nav-item.active .nav-icon { opacity: 1; }
+  
+  .sidebar-footer {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+  }
+  
+  .wallet {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  
+  .wallet-dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; }
+  
+  .disconnect-btn {
+    background: none;
+    border: 1px solid var(--border-strong);
+    color: var(--text-muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    width: 100%;
+  }
+  
+  .main { flex: 1; padding: 40px; }
+  
+  .page-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 12px;
+  }
+  
+  .page-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 40px;
+  }
+  
+  .stats-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  
+  .stats-4 { grid-template-columns: repeat(4, 1fr); }
+  .stats-3 { grid-template-columns: repeat(3, 1fr); }
+  
+  .stat-card {
+    background: var(--bg);
+    padding: 28px 24px;
+    text-align: center;
+  }
+  
+  .stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-top: 6px;
+  }
+  
+  .stat-sub {
+    font-size: 9px;
+    color: var(--text-faint);
+    margin-top: 4px;
+  }
+  
+  .quick-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  
+  .quick-link {
+    background: var(--bg);
+    padding: 32px 24px;
+  }
+  
+  .ql-icon { font-size: 24px; margin-bottom: 12px; opacity: 0.3; }
+  .ql-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .ql-desc { font-size: 12px; color: var(--text-muted); }
+  
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 24px;
+  }
+  
+  .panel {
+    border: 1px solid var(--border);
+  }
+  
+  .panel-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  
+  .tag-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  
+  .tag-count { color: var(--text-faint); }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo">
+    <span class="logo-text">CLUDE</span>
+    <span class="logo-badge">Dashboard</span>
+  </div>
+  <nav class="nav">
+    <div class="nav-item active"><span class="nav-icon">◉</span> Overview</div>
+    <div class="nav-item"><span class="nav-icon">▤</span> Timeline</div>
+    <div class="nav-item"><span class="nav-icon">◎</span> Entities</div>
+    <div class="nav-item"><span class="nav-icon">◈</span> Brain</div>
+    <div class="nav-item"><span class="nav-icon">◇</span> Decay</div>
+    <div class="nav-item"><span class="nav-icon">▦</span> Memory Packs</div>
+    <div class="nav-item"><span class="nav-icon">⚙</span> Settings</div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="wallet"><span class="wallet-dot"></span> 7xKp...9mVz</div>
+    <button class="disconnect-btn">Disconnect</button>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="page-label">Dashboard</div>
+  <h1 class="page-title">Agent Memory Overview</h1>
+  
+  <!-- Stats Row 1 -->
+  <div class="stats-grid stats-4">
+    <div class="stat-card">
+      <div class="stat-value">1,000</div>
+      <div class="stat-label">Total Memories</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" style="color: var(--episodic)">618</div>
+      <div class="stat-label">Episodic</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" style="color: var(--semantic)">172</div>
+      <div class="stat-label">Semantic</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" style="color: var(--procedural)">57</div>
+      <div class="stat-label">Procedural</div>
+    </div>
+  </div>
+  
+  <!-- Stats Row 2 -->
+  <div class="stats-grid stats-4">
+    <div class="stat-card">
+      <div class="stat-value" style="color: var(--self-model)">153</div>
+      <div class="stat-label">Self-Model</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1,697</div>
+      <div class="stat-label">Dream Sessions</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">172</div>
+      <div class="stat-label">Unique Users</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">0.50</div>
+      <div class="stat-label">Avg Importance</div>
+    </div>
+  </div>
+  
+  <!-- Venice Stats -->
+  <div class="stats-grid stats-3">
+    <div class="stat-card">
+      <div class="stat-value">2,847</div>
+      <div class="stat-label">Venice Calls</div>
+      <div class="stat-sub">Private inference</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">4.2M</div>
+      <div class="stat-label">Tokens Processed</div>
+      <div class="stat-sub">Zero data retention</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1,000</div>
+      <div class="stat-label">On-Chain</div>
+      <div class="stat-sub">Solana verified</div>
+    </div>
+  </div>
+  
+  <!-- Quick Links -->
+  <div class="quick-links">
+    <div class="quick-link">
+      <div class="ql-icon">▤</div>
+      <div class="ql-title">Memory Timeline</div>
+      <div class="ql-desc">Browse memories chronologically</div>
+    </div>
+    <div class="quick-link">
+      <div class="ql-icon">◎</div>
+      <div class="ql-title">Entity Map</div>
+      <div class="ql-desc">People, concepts, relationships</div>
+    </div>
+    <div class="quick-link">
+      <div class="ql-icon">◈</div>
+      <div class="ql-title">Brain View</div>
+      <div class="ql-desc">Interactive memory graph</div>
+    </div>
+  </div>
+  
+  <!-- Tags & Concepts -->
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-header">Top Tags</div>
+      <div class="tag-row"><span>general</span><span class="tag-count">449</span></div>
+      <div class="tag-row"><span>pattern</span><span class="tag-count">229</span></div>
+      <div class="tag-row"><span>consolidation</span><span class="tag-count">172</span></div>
+      <div class="tag-row"><span>first_interaction</span><span class="tag-count">124</span></div>
+      <div class="tag-row"><span>focal_point</span><span class="tag-count">104</span></div>
+      <div class="tag-row"><span>question</span><span class="tag-count">94</span></div>
+      <div class="tag-row"><span>reflection</span><span class="tag-count">79</span></div>
+      <div class="tag-row"><span>self_model</span><span class="tag-count">79</span></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header">Top Concepts</div>
+      <div class="tag-row"><span>self_insight</span><span class="tag-count">170</span></div>
+      <div class="tag-row"><span>recurring_user</span><span class="tag-count">144</span></div>
+      <div class="tag-row"><span>token_economics</span><span class="tag-count">116</span></div>
+      <div class="tag-row"><span>community_pattern</span><span class="tag-count">114</span></div>
+      <div class="tag-row"><span>identity</span><span class="tag-count">98</span></div>
+      <div class="tag-row"><span>ai_consciousness</span><span class="tag-count">87</span></div>
+      <div class="tag-row"><span>blockchain_memory</span><span class="tag-count">72</span></div>
+      <div class="tag-row"><span>dream_reflection</span><span class="tag-count">65</span></div>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

@@ -14,7 +14,7 @@ const NAV_ITEMS = [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { walletAddress, logout } = useAuthContext();
-  const location = useLocation();
+  const _location = useLocation();
   const shortAddress = walletAddress
     ? `${walletAddress.slice(0, 4)}...${walletAddress.slice(-4)}`
     : '';

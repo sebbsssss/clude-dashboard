@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../lib/api';
 import type { Memory, MemoryType } from '../types/memory';
 
-const TYPE_COLORS: Record<MemoryType, string> = {
+const _TYPE_COLORS: Record<MemoryType, string> = {
   episodic: '#2244ff',
   semantic: '#10b981',
   procedural: '#f59e0b',

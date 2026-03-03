@@ -45,7 +45,7 @@ export function EntityMap() {
     ctx.scale(2, 2);
 
     // Initialize positions
-    const nodes = graph.nodes.map((n, i) => ({
+    const nodes = graph.nodes.map((n, _i) => ({
       ...n,
       x: width / 2 + (Math.random() - 0.5) * width * 0.6,
       y: height / 2 + (Math.random() - 0.5) * height * 0.6,
